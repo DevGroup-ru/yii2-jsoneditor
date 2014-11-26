@@ -8,9 +8,9 @@ class JsoneditorAsset extends AssetBundle
 {
     public $sourcePath = '@bower/jsoneditor';
     public $js = [
-        'assets/jsoneditor.min.js'
+        'jsoneditor.min.js'
     ];
     public $css = [
-        'assets/jsoneditor.min.css'
+        'jsoneditor.min.css'
     ];
 }

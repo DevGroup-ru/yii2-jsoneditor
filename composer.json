@@ -1,0 +1,26 @@
+{
+    "name": "devgroup/yii2-jsoneditor",
+    "description": "Yii2 jsoneditor widget",
+    "type": "yii2-extension",
+    "keywords": ["yii2","json","jsoneditor","editor"],
+    "license": "GPL-3.0+",
+    "authors": [
+        {
+            "name": "Evgeny Dubovitsky",
+            "email": "flynn068@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "yiisoft/yii2": "*",
+        "bower-asset/jsoneditor": "*"
+    },
+    "require-dev": {
+        "yiisoft/yii2-debug": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "devgroup\\jsoneditor\\": ""
+        }
+    }
+}

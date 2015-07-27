@@ -43,3 +43,19 @@ Jsoneditor::widget(
     ]
 )
 ```
+
+or with active form
+
+```php
+use devgroup\jsoneditor\Jsoneditor;
+
+ $form->field($model,'name')->widget(Jsoneditor::className(),
+    [
+        'editorOptions' => [
+            'modes' => ['code', 'form', 'text', 'tree', 'view'], // available modes
+            'mode' => 'tree', // current mode
+        ],
+    ]
+); 
+```
+

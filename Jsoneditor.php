@@ -17,6 +17,7 @@ class Jsoneditor extends InputWidget
     public function init()
     {
         parent::init();
+
         if (!isset($this->options['id'])) {
             $this->options['id'] = $this->id;
         } else {
@@ -26,13 +27,16 @@ class Jsoneditor extends InputWidget
         if (!isset($this->options['style'])) {
             $this->options['style'] = 'height: 250px;';
         }
-        if (is_object($this->model)) {
+
+        if ($this->hasModel()) {
             $this->value = $this->model->{$this->attribute};
             $this->name = Html::getInputName($this->model, $this->attribute);
         }
+
         if (empty($this->value)) {
             $this->value = '{}';
         }
+
         $this->options['id'] .= '-jsoneditor';
     }
 
@@ -40,7 +44,9 @@ class Jsoneditor extends InputWidget
     {
         $view = $this->getView();
         JsoneditorAsset::register($view);
+
         $editorName = BaseInflector::camelize($this->id) . 'Editor';
+
         $view->registerJs(
             "var container = document.getElementById('" . $this->options['id'] . "');
             var options = " . Json::encode($this->editorOptions) . ";
@@ -51,7 +57,13 @@ class Jsoneditor extends InputWidget
                 return true;
             });"
         );
-        echo Html::hiddenInput($this->name, $this->value, ['id' => $this->id]);
+
+        if ($this->hasModel()) {
+            echo Html::activeHiddenInput($this->model, $this->attribute, ['id' => $this->id]);
+        } else {
+            echo Html::hiddenInput($this->name, $this->value, ['id' => $this->id]);
+        }
+
         echo Html::tag('div', '', $this->options);
     }
 }

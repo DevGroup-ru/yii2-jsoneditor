@@ -43,13 +43,10 @@ class Jsoneditor extends InputWidget
         $editorName = BaseInflector::camelize($this->id) . 'Editor';
         $view->registerJs(
             "var container = document.getElementById('" . $this->options['id'] . "');
-            var options = " . Json::encode($this->editorOptions) . ";
+            var options = " . Json::encode($this->editorOptions). ";
+            options.change = function() {jQuery('#" . $this->id . "').val(" . $editorName . ".getText());};
             var json = " . $this->value . ";
-            " . $editorName . " = new JSONEditor(container, options, json);
-            jQuery('#" . $this->id . "').parents('form').eq(0).submit(function() {
-                jQuery('#" . $this->id . "').val(" . $editorName . ".getText());
-                return true;
-            });"
+            " . $editorName . " = new JSONEditor(container, options, json);"
         );
         echo Html::hiddenInput($this->name, $this->value, ['id' => $this->id]);
         echo Html::tag('div', '', $this->options);

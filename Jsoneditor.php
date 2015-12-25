@@ -41,10 +41,14 @@ class Jsoneditor extends InputWidget
         $view = $this->getView();
         JsoneditorAsset::register($view);
         $editorName = BaseInflector::camelize($this->id) . 'Editor';
+        // Add possible user defined change function to ActiveField update method
+        $this->editorOptions->change = "function() {
+                jQuery('#" . $this->id . "').val(" . $editorName . ".getText());" . 
+                (isset($this->editorOptions->change)?$this->editorOptions->change:'') . "
+            };";
         $view->registerJs(
             "var container = document.getElementById('" . $this->options['id'] . "');
             var options = " . Json::encode($this->editorOptions). ";
-            options.change = function() {jQuery('#" . $this->id . "').val(" . $editorName . ".getText());};
             var json = " . $this->value . ";
             " . $editorName . " = new JSONEditor(container, options, json);"
         );

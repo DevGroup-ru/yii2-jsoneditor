@@ -27,7 +27,7 @@ class Jsoneditor extends InputWidget
             $this->options['style'] = 'height: 250px;';
         }
         if (is_object($this->model)) {
-            $this->value = $this->model->{$this->attribute};
+            $this->value = Html::getAttributeValue($this->model, $this->attribute);
             $this->name = Html::getInputName($this->model, $this->attribute);
         }
         if (empty($this->value)) {

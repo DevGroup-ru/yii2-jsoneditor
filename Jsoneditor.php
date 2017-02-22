@@ -5,6 +5,7 @@ namespace devgroup\jsoneditor;
 use yii\helpers\BaseInflector;
 use yii\helpers\Html;
 use yii\helpers\Json;
+use yii\web\JsExpression;
 use yii\widgets\InputWidget;
 
 class Jsoneditor extends InputWidget
@@ -41,15 +42,18 @@ class Jsoneditor extends InputWidget
         $view = $this->getView();
         JsoneditorAsset::register($view);
         $editorName = BaseInflector::camelize($this->id) . 'Editor';
+        // Add possible user defined change function to ActiveField update method
+        $this->editorOptions['change'] = new JsExpression(
+            "function() {".
+            "jQuery('#" . $this->id . "').val(" . $editorName . ".getText());" .
+            (isset($this->editorOptions['change'])?$this->editorOptions['change']:'') .
+            "}"
+        );
         $view->registerJs(
             "var container = document.getElementById('" . $this->options['id'] . "');
-            var options = " . Json::encode($this->editorOptions) . ";
+            var options = " . Json::encode($this->editorOptions). ";
             var json = " . $this->value . ";
-            " . $editorName . " = new JSONEditor(container, options, json);
-            jQuery('#" . $this->id . "').parents('form').eq(0).submit(function() {
-                jQuery('#" . $this->id . "').val(" . $editorName . ".getText());
-                return true;
-            });"
+            " . $editorName . " = new JSONEditor(container, options, json);"
         );
         echo Html::hiddenInput($this->name, $this->value, ['id' => $this->id]);
         echo Html::tag('div', '', $this->options);
